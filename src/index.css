@@ -1,0 +1,308 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-void: #0b0e14;
+  --color-surface: #0e1319;
+  --color-panel: #141a21;
+  --color-panel-raised: #1b222b;
+  --color-panel-hover: #202a35;
+  --color-line: #26333f;
+  --color-line-soft: #1e2830;
+  --color-border: #314357;
+
+  --color-ink-50: #f5f7fa;
+  --color-ink-100: #e2e8f0;
+  --color-ink-200: #d6dee3;
+  --color-ink-400: #9aa7b4;
+  --color-ink-600: #6b7a89;
+
+  --color-nvidia: #76b900;
+  --color-nvidia-bright: #8fdc00;
+  --color-cyan: #1597c5;
+  --color-cyan-bright: #5fa8d3;
+  --color-alert: #f04b23;
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-pulse-slow: pulse-slow 3s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 10s ease-in-out infinite;
+  --animate-shimmer: shimmer 3.5s linear infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+  --animate-hop: hop 1.9s cubic-bezier(0.34,1.56,0.64,1) infinite;
+  --animate-hop-slow: hop 2.6s cubic-bezier(0.34,1.56,0.64,1) infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate(0, 0px);
+    }
+    50% {
+      transform: translate(12px, -18px);
+    }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+  @keyframes drift-up {
+    0% {
+      transform: translate3d(0, 0, 0) scale(0.6);
+      opacity: 0;
+    }
+    12% {
+      opacity: 0.9;
+    }
+    80% {
+      opacity: 0.55;
+    }
+    100% {
+      transform: translate3d(14px, -220px, 0) scale(1.05);
+      opacity: 0;
+    }
+  }
+  @keyframes sweep {
+    0% {
+      transform: translateX(-120%) skewX(-18deg);
+      opacity: 0;
+    }
+    18% {
+      opacity: 0.55;
+    }
+    55% {
+      opacity: 0.25;
+    }
+    100% {
+      transform: translateX(220%) skewX(-18deg);
+      opacity: 0;
+    }
+  }
+  @keyframes grid-pan {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: 44px 44px;
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.15;
+      transform: scale(0.7);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.15);
+    }
+  }
+  @keyframes hop {
+    0%, 100% {
+      transform: translateY(0) scaleX(1);
+    }
+    28% {
+      transform: translateY(-38%) scaleX(0.96);
+    }
+    46% {
+      transform: translateY(0) scaleX(1.08);
+    }
+    52% {
+      transform: translateY(-6%) scaleX(0.99);
+    }
+    60%, 100% {
+      transform: translateY(0) scaleX(1);
+    }
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-void);
+  color: var(--color-ink-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-nvidia);
+  color: #0b0e14;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(154, 167, 180, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(154, 167, 180, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* The grid never sits still — a slow crawl keeps every slide alive behind its content. */
+.bg-grid-live {
+  animation: grid-pan 9s linear infinite;
+}
+
+.ambient-mote {
+  animation: drift-up var(--mote-dur, 11s) linear infinite;
+  animation-delay: var(--mote-delay, 0s);
+}
+
+.ambient-sweep {
+  animation: sweep 11s ease-in-out infinite;
+  animation-delay: var(--sweep-delay, 0s);
+}
+
+.mask-fade-b {
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.deck-scroller {
+  scroll-snap-type: y proximity;
+}
+
+.deck-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06),
+    0 8px 30px -8px rgba(0, 0, 0, 0.5);
+}
+
+.glass-strong {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.shimmer-text {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-ink-50) 0%,
+    var(--color-ink-50) 45%,
+    var(--color-nvidia-bright) 49%,
+    var(--color-cyan-bright) 51%,
+    var(--color-ink-50) 55%,
+    var(--color-ink-50) 100%
+  );
+  background-size: 340% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+/* Cursor-tracked spotlight for glass cards. --mx/--my set via JS in px, relative to element. */
+.spot-card {
+  position: relative;
+  isolation: isolate;
+}
+.spot-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(118, 185, 0, 0.35),
+    transparent 65%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.spot-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(118, 185, 0, 0.08), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.spot-card:hover::before,
+.spot-card:hover::after {
+  opacity: 1;
+}
+/* Unlayered, so it would beat Tailwind's `absolute` — leave explicitly positioned overlays alone. */
+.spot-card > :not(.absolute) {
+  position: relative;
+}
+.spot-card > * {
+  z-index: 2;
+}
